@@ -1,4 +1,3 @@
-
 package negocio;
 
 public class TipoEmpleado {
@@ -28,3 +27,4 @@ public class TipoEmpleado {
         this.nombre = nombre;
     }
 }
+

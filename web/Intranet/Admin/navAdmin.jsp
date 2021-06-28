@@ -1,31 +1,30 @@
 <% Object[] inicio=(Object[]) session.getAttribute("filaInicio"); %>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="index.jsp"><img src="../../img/LogoMakr-1JUGB7.png" width="80" alt=""></a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light z-index fixed-top">
+    <div class="container-fluid px-3 gap-lg-5">
+        <a class="navbar-brand m-0" href="index.jsp">
+            <img src="../../img/logo.svg" height="68" class="d-none d-lg-block" alt="">
+            <img src="../../img/logtipo.svg" height="68" class=" d-lg-none" alt="">
+        </a>
+            <h1 class=" h4 text-uppercase text-center w-45"><i class="fas fa-user-tie"></i> Cargo: <%= inicio[2] %></h1>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center justify-content-center w-100">
-                <li class="nav-item fw-bold  mx-3 text-dark">
-                    <h1 ><i class="fas fa-atlas "></i> Biblioteca Nacional</h1>
-                </li>
-            </ul>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center justify-content-md-end justify-content-center  w-50">
+        <div class="wm-lg-max collapse justify-content-end navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
                 <li class="nav-item mx-3">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-column align-items-center align-items-lg-center justify-content-center justify-content-lg-end w-100">   
+                    <ul class="gap-2 navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-column align-items-center align-items-lg-center justify-content-center justify-content-lg-end w-100">   
                         <li class="nav-item mx-3">
-                            <h1 class="text-dark h5"><i class="far fa-address-card"></i> Código: <%= inicio[0] %> </h1>
+                            <h1 class="text-dark h5 m-0"><i class="far fa-address-card"></i> C&oacute;digo: <%= inicio[0] %> </h1>
                         </li>
                         <li class="nav-item mx-3">
-                            <h1 class="text-dark h5"><i class="fas fa-user"></i> Nombre: <%= inicio[1] %> </h1>
+                            <h1 class="text-dark h5 m-0"><i class="fas fa-user"></i> Nombre: <%= inicio[1] %> </h1>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item mx-3">
-                    <form action="../../EmpleadoControl" method="post">
-                        <input type="submit" name="acc" class="btn-danger btn w-100 fw-bold" value="Cerrar">
+                    <form action="../../EmpleadoControl" class="h-100 d-flex" method="post">
+                        <input type="submit" name="acc" class="align-self-center btn-danger btn w-100 fw-bold" value="Cerrar">
                     </form>
                 </li>
             </ul>

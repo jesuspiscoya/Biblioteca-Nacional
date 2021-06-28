@@ -1,7 +1,6 @@
 package servicio;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import negocio.Pedido;
 import negocio.Presentador;
@@ -14,18 +13,11 @@ public class PedidoServicioImp implements PedidoServicio {
     public PedidoServicioImp() {
         peDao = new PedidoDaoImp();
     }
-    
-    private String getFecha() {
-        Date d=new Date();
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");
-        return sdf.format(d);
-    }
 
     @Override
     public String grabarPedido(int IdPerCli, double Total) {
-        Pedido Pe = new Pedido(IdPerCli, getFecha(), Total);
+        Pedido Pe = new Pedido(IdPerCli, LocalDate.now().toString(), Total);
         String msg = peDao.grabarPedido(Pe);
-        System.out.println(msg);
         if (msg==null)
             msg="Pedido Grabado";
         return msg;
@@ -35,7 +27,6 @@ public class PedidoServicioImp implements PedidoServicio {
     public String grabarDetalle(int IdLibro, int Cantidad, double Precio) {
         Pedido Pe = new Pedido(IdLibro, Cantidad, Precio);
         String msg = peDao.grabarDetalle(Pe);
-        System.out.println(msg);
         if (msg==null)
             msg="Pedido Grabado";
         return msg;
