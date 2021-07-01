@@ -7,11 +7,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% PedidoServicio peSer=new PedidoServicioImp(); %>
 <% BoletaServicio bolSer=new BoletaServicioImp(); %>
+<% PresentadorGeneral pe = (PresentadorGeneral) session.getAttribute("pg");%>
 <% Object[] inicio=(Object[]) session.getAttribute("filaInicio"); %>
 <!DOCTYPE html>
 <html>
     <head>
-        <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,6 @@
         <script src="https://kit.fontawesome.com/50872a9b90.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
         <title>Biblioteca</title>
-    </head>
     </head>
     <body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="94">
         <jsp:include page="navAdmin.jsp"/>
@@ -31,13 +30,12 @@
                         <div class="col-12 my-4">
                             <div class="input-group mb-3">
                                 <div class="row w-100 px-2">
-                                    <% PresentadorGeneral pe = (PresentadorGeneral) session.getAttribute("pg");%>
                                     <% Object[] pedido = pe.getPedido();%>
                                     <div class="d-flex justify-content-between">
                                         <form action="../../BoletaControl" method="post" class="col-10">
                                             <div class="row col-12">
                                                 <div class="col-9">
-                                                    <input type="text" class="form-control rounded-pill" required placeholder="Buscar Pedido por código" name="cod" maxlength="8" onkeyup="this.value=Numeros(this.value)" aria-label="Recipient's username" aria-describedby="button-addon2">
+                                                    <input type="text" class="form-control rounded-pill" required placeholder="Buscar pedido por código" name="cod" maxlength="8" onkeyup="this.value=Numeros(this.value)" aria-label="Recipient's username" aria-describedby="button-addon2">
                                                 </div>
                                                 <div class="col-3 d-flex flex-column">
                                                     <input class="btn btn-secondary" type="submit" id="button-addon2" name="acc" value="Buscar">
@@ -228,24 +226,24 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <% for (int i = 1; i < boletas.size(); i++) { %>
+                        <% Object[] boleta = (Object[]) boletas.get(i);%>
                         <tr class="">
-                            <% for (int i = 1; i < boletas.size(); i++) { %>
-                            <% Object[] boleta = (Object[]) boletas.get(i);%>
-                            <form action="../../BoletaControl" method="post">
+                            <form action="../../BoletaControl" method="post" target="_blank">
                                 <th scope="row">
-                                    <input type="text" name="cod" value="<%= boleta[0]%>" class="form-control text-center"  readonly>
+                                    <input type="text" name="idBoleta" value="<%= boleta[0]%>" class="form-control text-center"  readonly>
                                 </th>
                                 <td>
-                                    <input type="text" value="<%= boleta[1]%>" class="form-control text-center "  readonly>
+                                    <input type="text" name="idPedido" value="<%= boleta[1]%>" class="form-control text-center "  readonly>
                                 </td>
                                 <td>
                                     <input type="text" value="<%= boleta[2]%>" class="form-control text-center"  readonly>
                                 </td>
                                 <td>
-                                    <input type="text" value="<%= boleta[4]%>" class="form-control text-center" readonly>
+                                    <input type="text" name="fecha" value="<%= boleta[3]%>" class="form-control text-center" readonly>
                                 </td>
                                 <td>
-                                    <input type="text" value="<%= boleta[5]%>" class="form-control text-center" readonly>
+                                    <input type="text" value="<%= boleta[4]%>" class="form-control text-center" readonly>
                                 </td>
                                 <td>
                                     <input type="submit" name="acc" value="Exportar PDF" class=" btn btn-success">
