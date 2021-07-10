@@ -16,27 +16,32 @@ import servicio.PedidoServicioImp;
 
 @WebServlet(name = "BoletaControl", urlPatterns = {"/BoletaControl"})
 public class BoletaControl extends HttpServlet {
-    
+
     private PedidoServicio peSer;
     private PresentadorGeneral pg;
 
     public BoletaControl() {
         peSer = new PedidoServicioImp();
-        
+
     }
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String acc = request.getParameter("acc");
 
-        if (acc.equals("Boletas")) {
+        if (acc.equals("Boletas") || acc.equals("Devolucion")) {
             pg = new PresentadorGeneral();
-
             request.getSession().setAttribute("pg", pg);
-            response.sendRedirect("Intranet/Admin/boletas.jsp");
+
+            if (acc.equals("Boletas")) {
+                response.sendRedirect("Intranet/Admin/boletas.jsp");
+            } else {
+                response.sendRedirect("Intranet/Admin/Devoluciones.jsp");
+
+            }
         }
-        
+
         if (acc.equals("Buscar") || acc.equals("Ver Detalles")) {
             int cod = Integer.parseInt(request.getParameter("cod"));
             Object[] fill = peSer.buscar(cod);
@@ -44,7 +49,7 @@ public class BoletaControl extends HttpServlet {
             pg.setListaDetalle(lisP);
             if (fill != null) {
                 pg.setPedido(fill);
-                
+
                 request.getSession().setAttribute("fill", fill);
                 response.sendRedirect("Intranet/Admin/boletas.jsp");
             } else {
@@ -52,40 +57,40 @@ public class BoletaControl extends HttpServlet {
                 response.sendRedirect("Intranet/Admin/boletas.jsp");
             }
         }
-        
+
         if (acc.equals("Limpiar")) {
             Object[] vacio = {"", "", "", "", "", "", "", ""};
-            List vacio2=new ArrayList();
+            List vacio2 = new ArrayList();
             pg.setPedido(vacio);
             pg.setListaDetalle(vacio2);
             response.sendRedirect("Intranet/Admin/boletas.jsp");
         }
-        
+
         if (acc.equals("Generar Boleta")) {
             int codPedido = Integer.parseInt(request.getParameter("codPedido"));
             int codEmpleado = Integer.parseInt(request.getParameter("codEmpleado"));
             double total = Double.parseDouble(request.getParameter("total"));
-            
-            String msg=new BoletaServicioImp().grabar(codPedido, codEmpleado, LocalDate.now().toString(), LocalDate.now().plusDays(30).toString(), total);
+
+            String msg = new BoletaServicioImp().grabar(codPedido, codEmpleado, LocalDate.now().toString(), LocalDate.now().plusDays(30).toString(), total);
             pg.setMsg(msg);
-            
+
             response.sendRedirect("Intranet/Admin/boletas.jsp");
         }
-        
+
         if (acc.equals("Exportar PDF")) {
             String idBoleta = request.getParameter("idBoleta");
             int idPedido = Integer.parseInt(request.getParameter("idPedido"));
             String fecha = request.getParameter("fecha");
-            
+
             Object[] ped = peSer.buscar(idPedido);
             Object[] cli = new ClienteServicioImp().buscarCliente(ped[3].toString());
             List lisP = peSer.listarDetalle(idPedido);
             response.setContentType("application/pdf");
-            
-            BoletaPDF PDF=new BoletaPDF(idBoleta, String.valueOf(idPedido), fecha, cli, lisP);
+
+            BoletaPDF PDF = new BoletaPDF(idBoleta, String.valueOf(idPedido), fecha, cli, lisP);
             PDF.crearPDF(response);
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
